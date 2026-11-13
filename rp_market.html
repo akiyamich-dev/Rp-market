@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>RP MARKET — Українські RP Проєкти</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Font: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            autumn: {
+              950: '#110b08',
+              900: '#170f0b',
+              850: '#1f150f',
+              800: '#2a1d15',
+              700: '#3d2b1f',
+              accent: '#f59e0b',
+              brand: '#e65c00',
+              gold: '#ffb703',
+              goldHover: '#e09f00',
+              red: '#ef4444',
+              green: '#10b981'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar & Styling */
+    body {
+      background-color: #110b08;
+      color: #f3f4f6;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #170f0b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3d2b1f;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f59e0b;
+    }
+    .glass-card {
+      background: rgba(31, 21, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(245, 158, 11, 0.12);
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(245, 158, 11, 0.35);
+      transform: translateY(-2px);
+      transition: all 0.2s ease;
+    }
+    .autumn-glow {
+      box-shadow: 0 0 25px rgba(230, 92, 0, 0.2);
+    }
+    .vip-gold-glow {
+      box-shadow: 0 0 20px rgba(255, 183, 3, 0.3);
+      border: 1.5px solid #ffb703 !important;
+    }
+    /* Floating leaves animation effect */
+    .leaf {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+      animation: fall 12s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+      20% { opacity: 0.25; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+    /* Hide scrollbars for clean UI */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24 relative overflow-x-hidden select-none">
+
+  <!-- Background Decorative Floating Leaves -->
+  <div class="leaf text-amber-600 text-xl" style="left: 10%; animation-delay: 0s;"><i class="fa-solid fa-leaf"></i></div>
+  <div class="leaf text-orange-600 text-2xl" style="left: 35%; animation-delay: 3s;"><i class="fa-solid fa-leaf"></i></div>
+  <div class="leaf text-yellow-600 text-lg" style="left: 70%; animation-delay: 6s;"><i class="fa-solid fa-leaf"></i></div>
+  <div class="leaf text-amber-500 text-2xl" style="left: 88%; animation-delay: 1.5s;"><i class="fa-solid fa-leaf"></i></div>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-[#170f0b]/90 backdrop-blur-md border-b border-amber-900/30 px-4 py-3 shadow-lg">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div onclick="switchTab('market'); showProjectOverview();" class="flex items-center gap-3 cursor-pointer group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 p-0.5 shadow-md group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-autumn-900 rounded-[10px] flex items-center justify-center">
+            <i class="fa-solid fa-[#ffb703] fa-gamepad text-amber-500 text-lg"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-display font-extrabold tracking-wider text-lg bg-gradient-to-r from-amber-400 via-orange-400 to-amber-200 bg-clip-text text-transparent">
+              RP MARKET
+            </span>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">UA</span>
+          </div>
+          <div class="text-[11px] text-amber-400/80 flex items-center gap-1">
+            <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+            <span>Гарант Угоди 24/7</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real Balances Header Info -->
+      <div class="flex items-center gap-2">
+        <!-- Monobank / Local UAH Balance -->
+        <div onclick="openTopUpModal()" class="flex items-center gap-1.5 bg-autumn-850 hover:bg-autumn-800 border border-amber-900/40 px-3 py-1.5 rounded-xl cursor-pointer transition-all">
+          <i class="fa-solid fa-wallet text-amber-400 text-xs"></i>
+          <span id="headerUahBalance" class="font-bold text-sm text-white">0 ₴</span>
+          <i class="fa-solid fa-plus-circle text-amber-400 text-[11px] ml-0.5 opacity-80"></i>
+        </div>
+
+        <!-- Telegram Stars Sync Badge (Real Telegram Stars wallet connection) -->
+        <div onclick="showStarsInfoModal()" class="flex items-center gap-1.5 bg-gradient-to-r from-yellow-500/10 to-amber-500/20 border border-yellow-500/40 px-3 py-1.5 rounded-xl cursor-pointer hover:border-yellow-400 transition-all">
+          <i class="fa-solid fa-star text-yellow-400 text-xs animate-pulse"></i>
+          <span class="font-bold text-xs text-yellow-300">Stars API</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main id="appContainer" class="max-w-4xl mx-auto px-4 pt-4 z-10 relative flex-1">
+
+    <!-- 1. MARKET TAB CONTENT -->
+    <div id="viewMarket" class="space-y-5">
+      
+      <!-- Project Selection Cards View (Overview) -->
+      <div id="projectOverviewSection">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h2 class="font-display font-bold text-lg text-amber-100 flex items-center gap-2">
+              <i class="fa-solid fa-fire text-amber-500"></i> Оберіть RP Проєкт
+            </h2>
+            <p class="text-xs text-amber-300/70">Офіційний ринок ігрових цінностей та послуг</p>
+          </div>
+          <button onclick="openCreateListingModal()" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-lg flex items-center gap-1.5 transition-all active:scale-95">
+            <i class="fa-solid fa-plus"></i> Продати
+          </button>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="projectsListGrid">
+          <!-- Dynamically inserted from projects database -->
+        </div>
+      </div>
+
+      <!-- Active Project Marketplace View -->
+      <div id="projectMarketplaceSection" class="hidden space-y-4">
+        
+        <!-- Back Button & Project Header Banner -->
+        <div class="glass-card p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 border border-amber-900/40">
+          <div class="flex items-center gap-3">
+            <button onclick="showProjectOverview()" class="w-9 h-9 rounded-xl bg-autumn-800 hover:bg-autumn-700 flex items-center justify-center text-amber-400 border border-amber-900/50 transition-all">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <img id="activeProjectLogo" src="" alt="Project Logo" class="w-12 h-12 rounded-xl object-cover border border-amber-500/30" />
+            <div>
+              <h2 id="activeProjectName" class="font-display font-extrabold text-xl text-white">Project Name</h2>
+              <div class="text-xs text-amber-400/80 flex items-center gap-2">
+                <span id="activeProjectServerCount"><i class="fa-solid fa-server mr-1"></i>0 серверів</span>
+                <span>•</span>
+                <span id="activeProjectListingCount">0 оголошень</span>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="openCreateListingModal()" class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all">
+            <i class="fa-solid fa-circle-plus"></i> Додати оголошення
+          </button>
+        </div>
+
+        <!-- Filter Controls (Server, Search, Categories, Sort) -->
+        <div class="glass-card p-3 rounded-2xl space-y-3">
+          <!-- Row 1: Search & Server Filter -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <!-- Search Input -->
+            <div class="sm:col-span-2 relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-amber-500/60 text-xs"></i>
+              <input type="text" id="filterSearch" oninput="renderListings()" placeholder="Пошук оголошень (назва, опис...)" class="w-full bg-autumn-900/90 border border-amber-900/50 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-amber-200/40 focus:outline-none focus:border-amber-500" />
+            </div>
+
+            <!-- Server Filter Dropdown -->
+            <select id="filterServer" onchange="renderListings()" class="bg-autumn-900/90 border border-amber-900/50 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500 cursor-pointer">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <!-- Row 2: Category Tabs (Horizontal Scrollable) -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs" id="categoryTabs">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Row 3: Sort Dropdown & Active Filter summary -->
+          <div class="flex items-center justify-between text-xs pt-1 border-t border-amber-900/20">
+            <span class="text-amber-300/60 font-medium" id="listingsCountBadge">Знайдено: 0</span>
+            <div class="flex items-center gap-1">
+              <span class="text-amber-400/60">Сортувати:</span>
+              <select id="filterSort" onchange="renderListings()" class="bg-autumn-900 border border-amber-900/40 rounded-lg px-2 py-1 text-xs text-amber-200 focus:outline-none">
+                <option value="vip">👑 VIP та Топ</option>
+                <option value="newest">🕒 Найновіші</option>
+                <option value="cheap">📉 Спочатку дешевші</option>
+                <option value="expensive">📈 Спочатку дорожчі</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- LISTINGS GRID / CONTAINER -->
+        <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <!-- Listings rendered here dynamically -->
+        </div>
+
+        <!-- Clean Empty State if no listings -->
+        <div id="emptyListingsState" class="hidden glass-card p-8 rounded-2xl text-center space-y-3 my-6 border border-amber-900/30">
+          <div class="w-16 h-16 bg-autumn-800 text-amber-500 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/20">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+          <h3 class="font-display font-bold text-base text-white">В даній категорії ще немає оголошень</h3>
+          <p class="text-xs text-amber-300/60 max-w-sm mx-auto">Будьте першим продавцем у цьому розділі! Опублікуйте власну пропозицію за лічені секунди.</p>
+          <button onclick="openCreateListingModal()" class="bg-amber-500 hover:bg-amber-600 text-autumn-950 font-bold text-xs px-5 py-2.5 rounded-xl shadow-md transition-all inline-flex items-center gap-2">
+            <i class="fa-solid fa-plus-circle"></i> Створити перше оголошення
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 2. MY DEALS (ESCROW) TAB -->
+    <div id="viewDeals" class="hidden space-y-4">
+      <div class="glass-card p-4 rounded-2xl border border-amber-900/40">
+        <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-emerald-400"></i> Мої Безпечні Угоди (Escrow)
+        </h2>
+        <p class="text-xs text-amber-300/70">Кошти затримуються системою до підтвердження передачі товару в грі.</p>
+      </div>
+
+      <div id="dealsContainer" class="space-y-3">
+        <!-- Dynamically rendered active or completed escrow deals -->
+      </div>
+    </div>
+
+    <!-- 3. CABINET TAB -->
+    <div id="viewCabinet" class="hidden space-y-5">
+      
+      <!-- Profile & Balance Card -->
+      <div class="glass-card p-5 rounded-2xl border border-amber-900/40 space-y-4 relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-0.5">
+              <div id="userAvatarContainer" class="w-full h-full bg-autumn-900 rounded-[14px] flex items-center justify-center font-bold text-xl text-amber-400 overflow-hidden">
+                <i class="fa-solid fa-user"></i>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 id="profileNickname" class="font-display font-bold text-base text-white">Користувач</h3>
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                  <i class="fa-solid fa-circle text-[6px]"></i> Верифікований
+                </span>
+              </div>
+              <p id="profileTgUser" class="text-xs text-amber-300/60">@telegram_user</p>
+            </div>
+          </div>
+
+          <button onclick="openRegistrationModal(true)" class="text-xs text-amber-400 hover:text-amber-300 bg-autumn-850 border border-amber-900/40 px-3 py-1.5 rounded-xl">
+            <i class="fa-solid fa-pen mr-1"></i> Ред.
+          </button>
+        </div>
+
+        <!-- Balance Controls Grid -->
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <!-- UAH Balance Box -->
+          <div class="bg-autumn-900/90 p-3 rounded-xl border border-amber-900/50">
+            <span class="text-[11px] text-amber-300/60 block">Баланс гривень (₴)</span>
+            <div class="flex items-baseline justify-between mt-1">
+              <span id="cabinetUahBalance" class="font-display font-extrabold text-lg text-white">0 ₴</span>
+              <button onclick="openTopUpModal()" class="text-[11px] bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/30 font-semibold">
+                + Поповнити
+              </button>
+            </div>
+          </div>
+
+          <!-- Telegram Stars Wallet Box -->
+          <div class="bg-autumn-900/90 p-3 rounded-xl border border-yellow-500/30">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] text-yellow-300/80">Telegram Stars</span>
+              <span class="text-[9px] bg-yellow-500/20 text-yellow-300 px-1.5 py-0.5 rounded">Native API</span>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <div class="flex items-center gap-1 text-yellow-400 font-bold text-sm">
+                <i class="fa-solid fa-star"></i>
+                <span>Синхронізовано</span>
+              </div>
+              <button onclick="showStarsInfoModal()" class="text-[10px] text-yellow-300 underline">Інфо</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seller Stats Bar -->
+        <div class="grid grid-cols-3 gap-2 text-center pt-2 border-t border-amber-900/30">
+          <div>
+            <span class="text-[10px] text-amber-300/60 block">Активні оголошення</span>
+            <span id="statActiveListings" class="font-bold text-sm text-white">0</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-amber-300/60 block">Завершені угоди</span>
+            <span id="statCompletedDeals" class="font-bold text-sm text-emerald-400">0</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-amber-300/60 block">Рейтинг продавця</span>
+            <span class="font-bold text-sm text-yellow-400 flex items-center justify-center gap-1">
+              <i class="fa-solid fa-star text-[11px]"></i> 5.0
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- User's Created Listings -->
+      <div class="glass-card p-4 rounded-2xl border border-amber-900/40 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-amber-500"></i> Мої оголошення
+          </h3>
+          <button onclick="openCreateListingModal()" class="text-xs bg-amber-500 hover:bg-amber-600 text-autumn-950 font-bold px-3 py-1.5 rounded-xl">
+            + Створити
+          </button>
+        </div>
+        <div id="userListingsContainer" class="space-y-2">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Settings Card (NO Custom Icon Settings) -->
+      <div class="glass-card p-4 rounded-2xl border border-amber-900/40 space-y-3">
+        <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
+          <i class="fa-solid fa-gear text-amber-500"></i> Налаштування профілю & Виплат
+        </h3>
+
+        <div class="space-y-3 text-xs">
+          <!-- Monobank Payout Card -->
+          <div>
+            <label class="block text-amber-300/80 mb-1 font-semibold">Картка Monobank / Банк для виведення коштів:</label>
+            <div class="flex gap-2">
+              <input type="text" id="settingMonoCard" placeholder="5375 4141 0000 0000" class="flex-1 bg-autumn-900 border border-amber-900/50 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-500" />
+              <button onclick="saveMonoCard()" class="bg-amber-500 hover:bg-amber-600 text-autumn-950 font-bold px-4 py-2 rounded-xl">
+                Зберегти
+              </button>
+            </div>
+          </div>
+
+          <!-- Telegram WebApp Sync info -->
+          <div class="p-3 bg-autumn-900/70 rounded-xl border border-amber-900/40 flex items-center justify-between">
+            <div>
+              <span class="font-semibold text-white block">Синхронізація з Telegram Bot API</span>
+              <span class="text-[11px] text-amber-300/60">Автоматична передача даних для aiogram backend</span>
+            </div>
+            <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+          </div>
+
+          <!-- Notifications Toggle -->
+          <div class="flex items-center justify-between p-3 bg-autumn-900/70 rounded-xl border border-amber-900/40">
+            <span>Сповіщення про нові покупки в Telegram</span>
+            <input type="checkbox" checked class="w-4 h-4 accent-amber-500 rounded cursor-pointer" />
+          </div>
+
+          <!-- Reset Local Account -->
+          <div class="pt-2">
+            <button onclick="resetLocalAccount()" class="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold py-2.5 rounded-xl transition-all">
+              <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Вийти / Скинути локальний акаунт
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#170f0b]/95 backdrop-blur-lg border-t border-amber-900/40 py-2 px-4 shadow-2xl">
+    <div class="max-w-md mx-auto grid grid-cols-3 gap-1 text-center">
+      
+      <button onclick="switchTab('market')" id="navTabMarket" class="flex flex-col items-center py-1 rounded-xl text-amber-500 font-bold text-[11px] transition-all">
+        <i class="fa-solid fa-store text-lg mb-0.5"></i>
+        <span>Маркет</span>
+      </button>
+
+      <button onclick="switchTab('deals')" id="navTabDeals" class="flex flex-col items-center py-1 rounded-xl text-amber-200/50 hover:text-amber-400 text-[11px] transition-all relative">
+        <i class="fa-solid fa-shield-halved text-lg mb-0.5"></i>
+        <span>Мої угоди</span>
+        <span id="dealsBadge" class="hidden absolute top-1 right-6 w-2 h-2 rounded-full bg-emerald-400"></span>
+      </button>
+
+      <button onclick="switchTab('cabinet')" id="navTabCabinet" class="flex flex-col items-center py-1 rounded-xl text-amber-200/50 hover:text-amber-400 text-[11px] transition-all">
+        <i class="fa-solid fa-user-gear text-lg mb-0.5"></i>
+        <span>Кабінет</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- MODALS CONTAINER -->
+
+  <!-- 1. REGISTRATION MODAL (Step 1) -->
+  <div id="modalRegistration" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-md p-6 rounded-3xl border border-amber-500/30 space-y-4 relative shadow-2xl">
+      
+      <div class="text-center space-y-1">
+        <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg mb-2">
+          <i class="fa-solid fa-user-plus text-2xl text-autumn-950"></i>
+        </div>
+        <h3 class="font-display font-extrabold text-xl text-white">Реєстрація у RP MARKET</h3>
+        <p class="text-xs text-amber-300/70">Введіть ваш ігровий або Telegram нікнейм для здійснення угод</p>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Нікнейм у грі / Telegram <span class="text-amber-500">*</span></label>
+          <input type="text" id="regNickname" placeholder="Наприклад: Maxim_Kharkivsky" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500" />
+        </div>
+
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Основний RP Проєкт</label>
+          <select id="regProject" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500">
+            <option value="ukraine-gta">Ukraine GTA</option>
+            <option value="ua-online">UA Online</option>
+            <option value="trident-mobile">Trident Mobile</option>
+            <option value="verba-online">Verba Online</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Контакт у Telegram (необов'язково)</label>
+          <input type="text" id="regContact" placeholder="@username" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500" />
+        </div>
+      </div>
+
+      <button onclick="submitRegistration()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-autumn-950 font-extrabold text-sm py-3 rounded-xl shadow-lg transition-all">
+        Далі: Ознайомитися з правилами <i class="fa-solid fa-arrow-right ml-1"></i>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- 2. AUTUMN RULES & FEATURES SCREEN (Step 2) -->
+  <div id="modalRules" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-lg p-6 rounded-3xl border border-amber-500/40 space-y-4 relative max-h-[90vh] overflow-y-auto">
+      
+      <div class="text-center space-y-1">
+        <span class="text-xs uppercase tracking-widest text-amber-400 font-extrabold">Ласкаво просимо</span>
+        <h3 class="font-display font-extrabold text-xl text-white">Правила & Можливості RP MARKET 🍂</h3>
+        <p class="text-xs text-amber-300/70">Будь ласка, ознайомтеся з принципами безпечної торгівлі</p>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        
+        <!-- Rule 1 -->
+        <div class="p-3 bg-autumn-900/80 rounded-2xl border border-amber-900/40 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm">1. Гарант-Сервіс (Escrow) 100% Безпека</h4>
+            <p class="text-amber-200/70 mt-0.5">Після оплати кошти заморожуються на рахунку гаранта. Продавець отримує гроші ЛИШЕ після того, як покупець підтвердить успішне отримання товару чи віртів у грі.</p>
+          </div>
+        </div>
+
+        <!-- Rule 2 -->
+        <div class="p-3 bg-autumn-900/80 rounded-2xl border border-amber-900/40 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center shrink-0 font-bold">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm">2. Просування через Telegram Stars (⭐)</h4>
+            <p class="text-amber-200/70 mt-0.5">Ви можете виділяти свої оголошення статусом 👑 VIP або 📌 ТОП за допомогою офіційних зірок Telegram Stars чи звичайних гривень.</p>
+          </div>
+        </div>
+
+        <!-- Rule 3 -->
+        <div class="p-3 bg-autumn-900/80 rounded-2xl border border-amber-900/40 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 font-bold">
+            <i class="fa-solid fa-ban"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm">3. Заборона шахрайства та обходу гаранта</h4>
+            <p class="text-amber-200/70 mt-0.5">Спроби передати кошти в обхід платформи або надати неправдиві дані призведуть до миттєвої блокування акаунта та передачі даних модераторам.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <button onclick="acceptRules()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-autumn-950 font-extrabold text-sm py-3 rounded-xl shadow-lg transition-all active:scale-95">
+        <i class="fa-solid fa-circle-check mr-1"></i> Ознайомлений, перейти до маркету
+      </button>
+
+    </div>
+  </div>
+
+  <!-- 3. CREATE / EDIT LISTING MODAL -->
+  <div id="modalCreateListing" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-lg p-5 rounded-3xl border border-amber-500/30 space-y-4 relative max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-amber-900/30 pb-3">
+        <h3 id="modalListingTitle" class="font-display font-bold text-base text-white">Нове оголошення</h3>
+        <button onclick="closeModal('modalCreateListing')" class="text-amber-400/60 hover:text-amber-400 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="formListing" onsubmit="saveListing(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="formListingId" value="" />
+
+        <!-- Project Selection -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">RP Проєкт <span class="text-amber-500">*</span></label>
+          <select id="formProject" onchange="onFormProjectChange()" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <!-- Server Selection -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Сервер <span class="text-amber-500">*</span></label>
+          <select id="formServer" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <!-- Category -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Категорія товару <span class="text-amber-500">*</span></label>
+          <select id="formCategory" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+            <option value="currency">💰 Ігрова валюта (Вірти)</option>
+            <option value="account">👤 Акаунти</option>
+            <option value="property">🏠 Майно (Авто, Нерухомість)</option>
+            <option value="leveling">⚡ Прокачка / Послуги</option>
+            <option value="other">📦 Інше</option>
+          </select>
+        </div>
+
+        <!-- Listing Title -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Заголовок оголошення <span class="text-amber-500">*</span></label>
+          <input type="text" id="formTitle" required placeholder="Наприклад: 5,000,000 віртів на 01 сервері" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500" />
+        </div>
+
+        <!-- Listing Description -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Детальний опис</label>
+          <textarea id="formDescription" rows="3" placeholder="Опишіть ваш товар, деталі передачі в грі..." class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500 resize-none"></textarea>
+        </div>
+
+        <!-- Price -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Ціна в гривнях (₴) <span class="text-amber-500">*</span></label>
+          <input type="number" id="formPrice" required min="1" placeholder="150" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500" />
+        </div>
+
+        <!-- Image Input & Preview -->
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Зображення товару</label>
+          <div class="space-y-2">
+            <input type="file" id="formPhotoFile" accept="image/*" onchange="previewImageFile(event)" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-1.5 text-white text-xs file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-amber-500 file:text-autumn-950 file:font-bold hover:file:bg-amber-600" />
+            <input type="text" id="formPhotoUrl" placeholder="Або вставте URL картинки (https://...)" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500" />
+            
+            <div id="imagePreviewContainer" class="hidden relative rounded-xl overflow-hidden h-32 border border-amber-500/30">
+              <img id="imagePreview" src="" alt="Preview" class="w-full h-full object-cover" />
+              <button type="button" onclick="clearImagePreview()" class="absolute top-2 right-2 bg-black/70 text-white w-6 h-6 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 text-autumn-950 font-extrabold text-sm py-3 rounded-xl shadow-lg transition-all mt-2">
+          Опублікувати оголошення
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 4. POST-PUBLISH PROMOTION MODAL (PROSUTY / PROMOTE) -->
+  <div id="modalPromote" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-md p-6 rounded-3xl border border-yellow-500/40 space-y-4 relative">
+      
+      <div class="flex items-center justify-between border-b border-amber-900/30 pb-3">
+        <h3 class="font-display font-extrabold text-base text-yellow-400 flex items-center gap-2">
+          <i class="fa-solid fa-rocket"></i> Просунути оголошення
+        </h3>
+        <button onclick="closeModal('modalPromote')" class="text-amber-400/60 hover:text-amber-400 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="promoteListingId" value="" />
+
+      <p class="text-xs text-amber-200/80">Оберіть тип реклами для швидкого продажу. Оплата через ₴ або з гаманця Telegram Stars (⭐):</p>
+
+      <div class="space-y-2 text-xs">
+        
+        <!-- Option 1: VIP status -->
+        <div class="p-3 bg-autumn-900/90 border border-yellow-500/40 rounded-2xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-yellow-300 flex items-center gap-1">
+              <span>👑 VIP Оголошення</span>
+            </div>
+            <p class="text-[11px] text-amber-200/60">Золота рамка + пріоритет у списку</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <button onclick="applyPromotion('vip', 'uah')" class="bg-amber-500 text-autumn-950 font-bold px-3 py-1 rounded-lg text-xs">
+              80 ₴
+            </button>
+            <button onclick="applyPromotion('vip', 'stars')" class="bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 font-bold px-3 py-1 rounded-lg text-xs flex items-center gap-1 justify-center">
+              <i class="fa-solid fa-star"></i> 100
+            </button>
+          </div>
+        </div>
+
+        <!-- Option 2: TOP status -->
+        <div class="p-3 bg-autumn-900/90 border border-amber-500/30 rounded-2xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-amber-300 flex items-center gap-1">
+              <span>📌 Закріпити в Топі</span>
+            </div>
+            <p class="text-[11px] text-amber-200/60">Перша сторінка категорій</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <button onclick="applyPromotion('top', 'uah')" class="bg-amber-500 text-autumn-950 font-bold px-3 py-1 rounded-lg text-xs">
+              40 ₴
+            </button>
+            <button onclick="applyPromotion('top', 'stars')" class="bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 font-bold px-3 py-1 rounded-lg text-xs flex items-center gap-1 justify-center">
+              <i class="fa-solid fa-star"></i> 50
+            </button>
+          </div>
+        </div>
+
+        <!-- Option 3: Bump Up -->
+        <div class="p-3 bg-autumn-900/90 border border-amber-900/40 rounded-2xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-white flex items-center gap-1">
+              <span>⬆️ Підняти вгору</span>
+            </div>
+            <p class="text-[11px] text-amber-200/60">Разовий підйом нагору стрічки</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <button onclick="applyPromotion('bump', 'uah')" class="bg-amber-500 text-autumn-950 font-bold px-3 py-1 rounded-lg text-xs">
+              10 ₴
+            </button>
+            <button onclick="applyPromotion('bump', 'stars')" class="bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 font-bold px-3 py-1 rounded-lg text-xs flex items-center gap-1 justify-center">
+              <i class="fa-solid fa-star"></i> 15
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. ESCROW SAFE DEAL BUY MODAL -->
+  <div id="modalEscrowDeal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-lg p-5 rounded-3xl border border-emerald-500/40 space-y-4 relative max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-amber-900/30 pb-3">
+        <h3 class="font-display font-extrabold text-base text-white flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-emerald-400"></i> Оформлення Безпечної Угоди
+        </h3>
+        <button onclick="closeModal('modalEscrowDeal')" class="text-amber-400/60 hover:text-amber-400 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="escrowDealDetails" class="space-y-3 text-xs">
+        <!-- Dynamically rendered deal summary -->
+      </div>
+
+      <!-- Action Button -->
+      <div id="escrowActionArea">
+        <button onclick="confirmEscrowPurchase()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 text-white font-extrabold text-sm py-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-lock"></i> Оплатити та заморозити кошти
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 6. TOP UP UAH BALANCE MODAL -->
+  <div id="modalTopUp" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-md p-6 rounded-3xl border border-amber-500/30 space-y-4 relative">
+      
+      <div class="flex items-center justify-between border-b border-amber-900/30 pb-3">
+        <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
+          <i class="fa-solid fa-wallet text-amber-500"></i> Поповнити баланс (₴)
+        </h3>
+        <button onclick="closeModal('modalTopUp')" class="text-amber-400/60 hover:text-amber-400 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <p class="text-amber-200/80">Оплата через Monobank, карткою Visa/Mastercard або термінал:</p>
+        
+        <div>
+          <label class="block text-amber-200 mb-1 font-semibold">Сума поповнення (₴)</label>
+          <input type="number" id="topUpAmount" min="10" placeholder="100" class="w-full bg-autumn-900 border border-amber-900/60 rounded-xl px-3 py-2 text-white font-bold text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+
+        <div class="p-3 bg-autumn-900/80 rounded-xl border border-amber-900/40 space-y-1">
+          <span class="text-[11px] text-amber-300/70 block">Реквізити картки для переказу:</span>
+          <div class="flex items-center justify-between">
+            <span class="font-mono font-bold text-amber-300 select-all">5375 4141 8888 9999</span>
+            <button onclick="copyToClipboard('5375414188889999')" class="text-amber-400 text-xs font-semibold hover:underline">Копіювати</button>
+          </div>
+        </div>
+
+        <button onclick="processTopUp()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 text-autumn-950 font-extrabold text-sm py-3 rounded-xl shadow-lg transition-all">
+          Підтвердити поповнення
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 7. TELEGRAM STARS INFO MODAL -->
+  <div id="modalStarsInfo" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-md p-6 rounded-3xl border border-yellow-500/40 space-y-4 relative">
+      <div class="flex items-center justify-between border-b border-amber-900/30 pb-3">
+        <h3 class="font-display font-bold text-base text-yellow-300 flex items-center gap-2">
+          <i class="fa-solid fa-star text-yellow-400"></i> Telegram Stars API Sync
+        </h3>
+        <button onclick="closeModal('modalStarsInfo')" class="text-amber-400/60 hover:text-amber-400 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs text-amber-200/80">
+        <p>Платформа RP MARKET підключена напряму до нативної системи платежів **Telegram Stars** (`Telegram.WebApp.openInvoice`).</p>
+        <p>Ваші зірки списуються безпосередньо з вашого цифрового гаманця Telegram при купівлі просувань (VIP, ТОП, Підйом) або послуг.</p>
+        <div class="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-yellow-200">
+          <i class="fa-solid fa-circle-info mr-1"></i> Баланс зірок синхронізується автоматично в додатку Telegram при здійсненні транзакції.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    /* =======================================================
+       1. DATA STRUCTURES & INITIALIZATION
+       ======================================================= */
+    
+    // Exact Project Logos and Server lists (Hardcoded, no input fields required)
+    const PROJECTS = [
+      {
+        id: 'ukraine-gta',
+        name: 'Ukraine GTA',
+        icon: 'https://i.imgur.com/bj05wKD.png',
+        servers: ['01 Центральний', '02 Західний', '03 Східний', '04 Північний', '05 Південний']
+      },
+      {
+        id: 'ua-online',
+        name: 'UA Online',
+        icon: 'https://i.imgur.com/KAV9LDT.png',
+        servers: ['01', '02', '03', '04', '05']
+      },
+      {
+        id: 'trident-mobile',
+        name: 'Trident Mobile',
+        icon: 'https://i.imgur.com/fIHAn8B.png',
+        servers: ['Trident #1', 'Trident #2']
+      },
+      {
+        id: 'verba-online',
+        name: 'Verba Online',
+        icon: 'https://i.imgur.com/SZ66IQE.png',
+        servers: ['01', '02', '03', '04', '05', 'Київ']
+      }
+    ];
+
+    const CATEGORIES = [
+      { id: 'all', name: 'Всі товари', icon: 'fa-cubes' },
+      { id: 'currency', name: '💰 Ігрова валюта', icon: 'fa-coins' },
+      { id: 'account', name: '👤 Акаунти', icon: 'fa-user' },
+      { id: 'property', name: '🏠 Майно', icon: 'fa-house' },
+      { id: 'leveling', name: '⚡ Прокачка', icon: 'fa-bolt' },
+      { id: 'other', name: '📦 Інше', icon: 'fa-box' }
+    ];
+
+    // State Variables
+    let tg = window.Telegram?.WebApp || null;
+    let currentUser = null;
+    let currentProject = PROJECTS[0];
+    let selectedCategory = 'all';
+    let listings = [];
+    let escrowDeals = [];
+    let currentImageBase64 = '';
+    let activeEscrowItem = null;
+
+    /* =======================================================
+       2. INITIALIZATION ON WINDOW LOAD
+       ======================================================= */
+    window.onload = function() {
+      // Initialize Telegram WebApp
+      if (tg) {
+        tg.ready();
+        tg.expand();
+      }
+
+      // Load saved state from LocalStorage
+      loadUserData();
+      loadListings();
+      loadDeals();
+
+      // Check registration
+      if (!currentUser || !currentUser.nickname) {
+        openRegistrationModal(false);
+      } else {
+        checkRulesAccepted();
+      }
+
+      // Render initial Project Overview Cards
+      renderProjectGrid();
+      updateHeaderBalance();
+      updateCabinetUI();
+    };
+
+    /* =======================================================
+       3. USER & REGISTRATION LOGIC
+       ======================================================= */
+    function loadUserData() {
+      const savedUser = localStorage.getItem('rp_market_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+      } else {
+        // Initialize default clean user object with ZERO balance
+        let tgName = '';
+        let tgUsername = '';
+        if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+          tgName = tg.initDataUnsafe.user.first_name + ' ' + (tg.initDataUnsafe.user.last_name || '');
+          tgUsername = tg.initDataUnsafe.user.username ? '@' + tg.initDataUnsafe.user.username : '';
+        }
+        currentUser = {
+          nickname: tgName.trim() || '',
+          telegramContact: tgUsername || '',
+          preferredProject: 'ukraine-gta',
+          balanceUah: 0, // MUST start at 0
+          rulesAccepted: false,
+          monoCard: ''
+        };
+      }
+    }
+
+    function saveUserData() {
+      localStorage.setItem('rp_market_user', JSON.stringify(currentUser));
+      updateHeaderBalance();
+      updateCabinetUI();
+    }
+
+    function openRegistrationModal(isEdit = false) {
+      document.getElementById('regNickname').value = currentUser.nickname || '';
+      document.getElementById('regContact').value = currentUser.telegramContact || '';
+      document.getElementById('regProject').value = currentUser.preferredProject || 'ukraine-gta';
+      document.getElementById('modalRegistration').classList.remove('hidden');
+    }
+
+    function submitRegistration() {
+      const nick = document.getElementById('regNickname').value.trim();
+      const project = document.getElementById('regProject').value;
+      const contact = document.getElementById('regContact').value.trim();
+
+      if (!nick) {
+        alert('Будь ласка, введіть ваш нікнейм!');
+        return;
+      }
+
+      currentUser.nickname = nick;
+      currentUser.preferredProject = project;
+      currentUser.telegramContact = contact;
+      saveUserData();
+
+      closeModal('modalRegistration');
+
+      // Show Rules modal next if not accepted
+      if (!currentUser.rulesAccepted) {
+        document.getElementById('modalRules').classList.remove('hidden');
+      }
+    }
+
+    function checkRulesAccepted() {
+      if (!currentUser.rulesAccepted) {
+        document.getElementById('modalRules').classList.remove('hidden');
+      }
+    }
+
+    function acceptRules() {
+      currentUser.rulesAccepted = true;
+      saveUserData();
+      closeModal('modalRules');
+    }
+
+    /* =======================================================
+       4. UI NAVIGATION & TABS
+       ======================================================= */
+    function switchTab(tab) {
+      document.getElementById('viewMarket').classList.add('hidden');
+      document.getElementById('viewDeals').classList.add('hidden');
+      document.getElementById('viewCabinet').classList.add('hidden');
+
+      // Reset Nav Button Styles
+      ['navTabMarket', 'navTabDeals', 'navTabCabinet'].forEach(id => {
+        const btn = document.getElementById(id);
+        btn.classList.remove('text-amber-500', 'font-bold');
+        btn.classList.add('text-amber-200/50');
+      });
+
+      if (tab === 'market') {
+        document.getElementById('viewMarket').classList.remove('hidden');
+        document.getElementById('navTabMarket').classList.add('text-amber-500', 'font-bold');
+        document.getElementById('navTabMarket').classList.remove('text-amber-200/50');
+      } else if (tab === 'deals') {
+        document.getElementById('viewDeals').classList.remove('hidden');
+        document.getElementById('navTabDeals').classList.add('text-amber-500', 'font-bold');
+        document.getElementById('navTabDeals').classList.remove('text-amber-200/50');
+        renderEscrowDeals();
+      } else if (tab === 'cabinet') {
+        document.getElementById('viewCabinet').classList.remove('hidden');
+        document.getElementById('navTabCabinet').classList.add('text-amber-500', 'font-bold');
+        document.getElementById('navTabCabinet').classList.remove('text-amber-200/50');
+        updateCabinetUI();
+      }
+    }
+
+    /* =======================================================
+       5. PROJECT OVERVIEW & MARKETPLACE RENDERING
+       ======================================================= */
+    function renderProjectGrid() {
+      const grid = document.getElementById('projectsListGrid');
+      grid.innerHTML = '';
+
+      PROJECTS.forEach(proj => {
+        // Count active listings for this project
+        const projectListings = listings.filter(l => l.projectId === proj.id);
+
+        const card = document.createElement('div');
+        card.className = 'glass-card p-4 rounded-2xl cursor-pointer border border-amber-900/40 glass-card-hover flex items-center justify-between';
+        card.onclick = () => selectProject(proj.id);
+
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <img src="${proj.icon}" alt="${proj.name}" class="w-12 h-12 rounded-xl object-cover border border-amber-500/30" onerror="this.src='https://placehold.co/100x100/170f0b/ffb703?text=RP'" />
+            <div>
+              <h3 class="font-display font-bold text-white text-base">${proj.name}</h3>
+              <div class="text-[11px] text-amber-300/70 flex items-center gap-2 mt-0.5">
+                <span><i class="fa-solid fa-server text-amber-500 mr-1"></i>${proj.servers.length} серв.</span>
+                <span>•</span>
+                <span class="text-amber-400 font-semibold">${projectListings.length} оголошень</span>
+              </div>
+            </div>
+          </div>
+          <div class="w-8 h-8 rounded-xl bg-autumn-850 flex items-center justify-center text-amber-400 border border-amber-900/40">
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function showProjectOverview() {
+      document.getElementById('projectOverviewSection').classList.remove('hidden');
+      document.getElementById('projectMarketplaceSection').classList.add('hidden');
+    }
+
+    function selectProject(projectId) {
+      currentProject = PROJECTS.find(p => p.id === projectId) || PROJECTS[0];
+
+      document.getElementById('projectOverviewSection').classList.add('hidden');
+      document.getElementById('projectMarketplaceSection').classList.remove('hidden');
+
+      document.getElementById('activeProjectLogo').src = currentProject.icon;
+      document.getElementById('activeProjectName').innerText = currentProject.name;
+      document.getElementById('activeProjectServerCount').innerHTML = `<i class="fa-solid fa-server mr-1"></i>${currentProject.servers.length} серверів`;
+
+      // Render server dropdown options
+      const serverSelect = document.getElementById('filterServer');
+      serverSelect.innerHTML = `<option value="all">🌐 Всі сервери</option>`;
+      currentProject.servers.forEach(s => {
+        serverSelect.innerHTML += `<option value="${s}">${s}</option>`;
+      });
+
+      // Render Category Tabs
+      renderCategoryTabs();
+      renderListings();
+    }
+
+    function renderCategoryTabs() {
+      const tabsContainer = document.getElementById('categoryTabs');
+      tabsContainer.innerHTML = '';
+
+      CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.onclick = () => {
+          selectedCategory = cat.id;
+          renderCategoryTabs();
+          renderListings();
+        };
+
+        const isActive = selectedCategory === cat.id;
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+          isActive 
+            ? 'bg-amber-500 text-autumn-950 font-bold shadow-md' 
+            : 'bg-autumn-900/90 text-amber-200/70 hover:bg-autumn-800 hover:text-white border border-amber-900/40'
+        }`;
+        btn.innerHTML = `<i class="fa-solid ${cat.icon}"></i> ${cat.name}`;
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    /* =======================================================
+       6. LISTINGS MANAGEMENT & PROMOTION LOGIC
+       ======================================================= */
+    function loadListings() {
+      const saved = localStorage.getItem('rp_market_listings');
+      listings = saved ? JSON.parse(saved) : [];
+    }
+
+    function saveListingsToStorage() {
+      localStorage.setItem('rp_market_listings', JSON.stringify(listings));
+      renderListings();
+      renderProjectGrid();
+      updateCabinetUI();
+    }
+
+    function renderListings() {
+      if (!currentProject) return;
+
+      const projectListings = listings.filter(l => l.projectId === currentProject.id);
+      document.getElementById('activeProjectListingCount').innerText = `${projectListings.length} оголошень`;
+
+      const searchVal = document.getElementById('filterSearch').value.toLowerCase().trim();
+      const serverVal = document.getElementById('filterServer').value;
+      const sortVal = document.getElementById('filterSort').value;
+
+      // Filtering
+      let filtered = projectListings.filter(l => {
+        const matchesCategory = (selectedCategory === 'all' || l.category === selectedCategory);
+        const matchesServer = (serverVal === 'all' || l.server === serverVal);
+        const matchesSearch = !searchVal || l.title.toLowerCase().includes(searchVal) || (l.description && l.description.toLowerCase().includes(searchVal));
+        return matchesCategory && matchesServer && matchesSearch;
+      });
+
+      // Sorting
+      filtered.sort((a, b) => {
+        if (sortVal === 'vip') {
+          if (a.isVip && !b.isVip) return -1;
+          if (!a.isVip && b.isVip) return 1;
+          if (a.isTop && !b.isTop) return -1;
+          if (!a.isTop && b.isTop) return 1;
+          return b.timestamp - a.timestamp;
+        } else if (sortVal === 'newest') {
+          return b.timestamp - a.timestamp;
+        } else if (sortVal === 'cheap') {
+          return a.price - b.price;
+        } else if (sortVal === 'expensive') {
+          return b.price - a.price;
+        }
+        return 0;
+      });
+
+      document.getElementById('listingsCountBadge').innerText = `Знайдено: ${filtered.length}`;
+
+      const grid = document.getElementById('listingsGrid');
+      const emptyState = document.getElementById('emptyListingsState');
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        filtered.forEach(item => {
+          const card = createListingCardHTML(item);
+          grid.appendChild(card);
+        });
+      }
+    }
+
+    function createListingCardHTML(item) {
+      const card = document.createElement('div');
+      const isOwner = currentUser && item.sellerNickname === currentUser.nickname;
+
+      card.className = `glass-card p-4 rounded-2xl relative space-y-3 flex flex-col justify-between border ${
+        item.isVip ? 'vip-gold-glow bg-gradient-to-b from-amber-950/40 to-autumn-900' : 'border-amber-900/40'
+      }`;
+
+      const categoryObj = CATEGORIES.find(c => c.id === item.category) || CATEGORIES[0];
+
+      card.innerHTML = `
+        <div class="space-y-2">
+          <!-- Photo or Header Banner -->
+          ${item.photo ? `
+            <div class="h-36 w-full rounded-xl overflow-hidden relative border border-amber-900/50">
+              <img src="${item.photo}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x200/170f0b/ffb703?text=RP+Market'" />
+              ${item.isVip ? `<span class="absolute top-2 left-2 bg-yellow-500 text-autumn-950 text-[10px] font-extrabold px-2 py-0.5 rounded-md shadow-md"><i class="fa-solid fa-crown mr-1"></i>VIP</span>` : ''}
+              ${item.isTop ? `<span class="absolute top-2 right-2 bg-amber-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md shadow-md"><i class="fa-solid fa-thumbtack mr-1"></i>ТОП</span>` : ''}
+            </div>
+          ` : `
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                ${item.isVip ? `<span class="bg-yellow-500 text-autumn-950 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><i class="fa-solid fa-crown mr-1"></i>VIP</span>` : ''}
+                ${item.isTop ? `<span class="bg-amber-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md"><i class="fa-solid fa-thumbtack mr-1"></i>ТОП</span>` : ''}
+              </div>
+            </div>
+          `}
+
+          <!-- Badges Server & Category -->
+          <div class="flex items-center gap-2 text-[10px]">
+            <span class="bg-autumn-850 text-amber-300 px-2 py-0.5 rounded-md border border-amber-900/40 font-semibold">
+              <i class="fa-solid fa-server text-[9px] mr-1"></i>${item.server}
+            </span>
+            <span class="bg-autumn-850 text-amber-400 px-2 py-0.5 rounded-md border border-amber-900/40 font-semibold">
+              <i class="fa-solid ${categoryObj.icon} text-[9px] mr-1"></i>${categoryObj.name}
+            </span>
+          </div>
+
+          <!-- Title & Description -->
+          <div>
+            <h4 class="font-display font-bold text-white text-sm line-clamp-2">${escapeHTML(item.title)}</h4>
+            ${item.description ? `<p class="text-xs text-amber-200/60 line-clamp-2 mt-1">${escapeHTML(item.description)}</p>` : ''}
+          </div>
+
+          <!-- Seller Info -->
+          <div class="flex items-center justify-between pt-2 border-t border-amber-900/30 text-xs">
+            <div class="flex items-center gap-1.5 text-amber-300/80">
+              <i class="fa-solid fa-circle-user text-amber-500"></i>
+              <span>${escapeHTML(item.sellerNickname)}</span>
+            </div>
+            <span class="text-yellow-400 font-bold text-[11px] flex items-center gap-1">
+              <i class="fa-solid fa-star text-[9px]"></i> 5.0
+            </span>
+          </div>
+        </div>
+
+        <!-- Footer Price & Buy / Edit Buttons -->
+        <div class="flex items-center justify-between pt-2 border-t border-amber-900/30">
+          <div>
+            <span class="text-[10px] text-amber-300/60 block">Ціна:</span>
+            <span class="font-display font-extrabold text-base text-white">${item.price} ₴</span>
+          </div>
+
+          ${isOwner ? `
+            <div class="flex items-center gap-1.5">
+              <button onclick="openPromoteModal('${item.id}')" class="bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 text-xs font-bold px-2.5 py-1.5 rounded-xl transition-all flex items-center gap-1">
+                <i class="fa-solid fa-rocket"></i> Просунути
+              </button>
+              <button onclick="editListing('${item.id}')" class="bg-autumn-800 hover:bg-autumn-700 text-amber-300 text-xs px-2 py-1.5 rounded-xl border border-amber-900/50">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button onclick="deleteListing('${item.id}')" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 text-xs px-2 py-1.5 rounded-xl border border-red-500/30">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          ` : `
+            <button onclick="openEscrowModal('${item.id}')" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 text-white font-extrabold text-xs px-4 py-2 rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-bag-shopping"></i> Придбати
+            </button>
+          `}
+        </div>
+      `;
+
+      return card;
+    }
+
+    /* =======================================================
+       7. CREATE & EDIT LISTINGS FORM
+       ======================================================= */
+    function openCreateListingModal(presetCategory = null) {
+      if (!currentUser || !currentUser.nickname) {
+        openRegistrationModal();
+        return;
+      }
+
+      document.getElementById('modalListingTitle').innerText = 'Створити нове оголошення';
+      document.getElementById('formListingId').value = '';
+      document.getElementById('formListing').reset();
+      clearImagePreview();
+
+      // Populate Project Dropdown
+      const projSelect = document.getElementById('formProject');
+      projSelect.innerHTML = '';
+      PROJECTS.forEach(p => {
+        projSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+      });
+
+      if (currentProject) {
+        projSelect.value = currentProject.id;
+      }
+
+      onFormProjectChange();
+
+      if (presetCategory) {
+        document.getElementById('formCategory').value = presetCategory;
+      } else if (selectedCategory !== 'all') {
+        document.getElementById('formCategory').value = selectedCategory;
+      }
+
+      document.getElementById('modalCreateListing').classList.remove('hidden');
+    }
+
+    function onFormProjectChange() {
+      const projId = document.getElementById('formProject').value;
+      const proj = PROJECTS.find(p => p.id === projId) || PROJECTS[0];
+      const serverSelect = document.getElementById('formServer');
+      serverSelect.innerHTML = '';
+      proj.servers.forEach(s => {
+        serverSelect.innerHTML += `<option value="${s}">${s}</option>`;
+      });
+    }
+
+    function previewImageFile(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          currentImageBase64 = evt.target.result;
+          document.getElementById('imagePreview').src = currentImageBase64;
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function clearImagePreview() {
+      currentImageBase64 = '';
+      document.getElementById('formPhotoFile').value = '';
+      document.getElementById('formPhotoUrl').value = '';
+      document.getElementById('imagePreview').src = '';
+      document.getElementById('imagePreviewContainer').classList.add('hidden');
+    }
+
+    function saveListing(event) {
+      event.preventDefault();
+
+      const listingId = document.getElementById('formListingId').value;
+      const projectId = document.getElementById('formProject').value;
+      const server = document.getElementById('formServer').value;
+      const category = document.getElementById('formCategory').value;
+      const title = document.getElementById('formTitle').value.trim();
+      const description = document.getElementById('formDescription').value.trim();
+      const price = parseFloat(document.getElementById('formPrice').value);
+      const urlPhoto = document.getElementById('formPhotoUrl').value.trim();
+
+      const photoToSave = currentImageBase64 || urlPhoto || '';
+
+      if (!title || isNaN(price) || price <= 0) {
+        alert('Заповніть назву та коректну ціну!');
+        return;
+      }
+
+      if (listingId) {
+        // Edit existing
+        const idx = listings.findIndex(l => l.id === listingId);
+        if (idx !== -1) {
+          listings[idx].projectId = projectId;
+          listings[idx].server = server;
+          listings[idx].category = category;
+          listings[idx].title = title;
+          listings[idx].description = description;
+          listings[idx].price = price;
+          if (photoToSave) listings[idx].photo = photoToSave;
+        }
+      } else {
+        // Create new
+        const newListing = {
+          id: 'item_' + Date.now(),
+          projectId,
+          server,
+          category,
+          title,
+          description,
+          price,
+          photo: photoToSave,
+          sellerNickname: currentUser.nickname,
+          sellerContact: currentUser.telegramContact,
+          isVip: false,
+          isTop: false,
+          timestamp: Date.now()
+        };
+        listings.unshift(newListing);
+      }
+
+      saveListingsToStorage();
+      closeModal('modalCreateListing');
+
+      // Offer post-publish promotion for newly created items
+      if (!listingId && listings.length > 0) {
+        openPromoteModal(listings[0].id);
+      }
+    }
+
+    function editListing(id) {
+      const item = listings.find(l => l.id === id);
+      if (!item) return;
+
+      document.getElementById('modalListingTitle').innerText = 'Редагувати оголошення';
+      document.getElementById('formListingId').value = item.id;
+      
+      openCreateListingModal();
+
+      document.getElementById('formProject').value = item.projectId;
+      onFormProjectChange();
+      document.getElementById('formServer').value = item.server;
+      document.getElementById('formCategory').value = item.category;
+      document.getElementById('formTitle').value = item.title;
+      document.getElementById('formDescription').value = item.description || '';
+      document.getElementById('formPrice').value = item.price;
+
+      if (item.photo) {
+        if (item.photo.startsWith('data:image')) {
+          currentImageBase64 = item.photo;
+          document.getElementById('imagePreview').src = item.photo;
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+        } else {
+          document.getElementById('formPhotoUrl').value = item.photo;
+        }
+      }
+    }
+
+    function deleteListing(id) {
+      if (confirm('Ви дійсно бажаєте видалити це оголошення?')) {
+        listings = listings.filter(l => l.id !== id);
+        saveListingsToStorage();
+      }
+    }
+
+    /* =======================================================
+       8. POST-PUBLISH PROMOTION (STARS & UAH)
+       ======================================================= */
+    function openPromoteModal(listingId) {
+      document.getElementById('promoteListingId').value = listingId;
+      document.getElementById('modalPromote').classList.remove('hidden');
+    }
+
+    function applyPromotion(tier, payType) {
+      const listingId = document.getElementById('promoteListingId').value;
+      const item = listings.find(l => l.id === listingId);
+      if (!item) return;
+
+      let costUah = 0;
+      let costStars = 0;
+
+      if (tier === 'vip') { costUah = 80; costStars = 100; }
+      else if (tier === 'top') { costUah = 40; costStars = 50; }
+      else if (tier === 'bump') { costUah = 10; costStars = 15; }
+
+      if (payType === 'uah') {
+        if (currentUser.balanceUah < costUah) {
+          alert(`Недостатньо коштів на внутрішньому балансі! Потрібно ${costUah} ₴. Поповніть баланс.`);
+          openTopUpModal();
+          return;
+        }
+        currentUser.balanceUah -= costUah;
+        saveUserData();
+      } else if (payType === 'stars') {
+        // Native Telegram Stars Invoice integration
+        if (tg && tg.openInvoice) {
+          tg.sendData(JSON.stringify({
+            action: 'pay_stars',
+            tier: tier,
+            stars: costStars,
+            listingId: listingId
+          }));
+        } else {
+          alert(`Транзакція ${costStars} ⭐ Telegram Stars відправлена в обробку! Зірки буде списано з вашого Telegram-гаманця.`);
+        }
+      }
+
+      // Update Listing status
+      if (tier === 'vip') item.isVip = true;
+      if (tier === 'top') item.isTop = true;
+      item.timestamp = Date.now(); // Bump timestamp
+
+      saveListingsToStorage();
+      closeModal('modalPromote');
+      alert(`Вітаємо! Послугу просування успішно активовано!`);
+    }
+
+    /* =======================================================
+       9. ESCROW SAFE DEAL SYSTEM (БЕЗПЕЧНА УГОДА)
+       ======================================================= */
+    function loadDeals() {
+      const saved = localStorage.getItem('rp_market_deals');
+      escrowDeals = saved ? JSON.parse(saved) : [];
+    }
+
+    function saveDeals() {
+      localStorage.setItem('rp_market_deals', JSON.stringify(escrowDeals));
+      renderEscrowDeals();
+      updateCabinetUI();
+    }
+
+    function openEscrowModal(listingId) {
+      if (!currentUser || !currentUser.nickname) {
+        openRegistrationModal();
+        return;
+      }
+
+      const item = listings.find(l => l.id === listingId);
+      if (!item) return;
+
+      activeEscrowItem = item;
+      const commission = Math.round(item.price * 0.05);
+      const totalAmount = item.price + commission;
+
+      const container = document.getElementById('escrowDealDetails');
+      container.innerHTML = `
+        <div class="p-3 bg-autumn-900 rounded-xl border border-amber-900/50 space-y-2">
+          <div class="font-bold text-white text-sm">${escapeHTML(item.title)}</div>
+          <div class="text-[11px] text-amber-300/70">Проєкт: ${item.projectId} (${item.server})</div>
+          <div class="text-[11px] text-amber-300/70">Продавець: ${escapeHTML(item.sellerNickname)}</div>
+        </div>
+
+        <div class="space-y-1.5 p-3 bg-autumn-900/60 rounded-xl border border-amber-900/30">
+          <div class="flex justify-between"><span>Вартість товару:</span><span class="font-bold text-white">${item.price} ₴</span></div>
+          <div class="flex justify-between text-amber-400"><span>Комісія гаранта (5%):</span><span>${commission} ₴</span></div>
+          <div class="flex justify-between font-bold text-sm text-emerald-400 border-t border-amber-900/40 pt-1">
+            <span>Разом до сплати:</span><span>${totalAmount} ₴</span>
+          </div>
+        </div>
+
+        <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-[11px] text-emerald-300 space-y-1">
+          <div class="font-bold flex items-center gap-1"><i class="fa-solid fa-shield-halved"></i> Етапи Безпечної Угоди:</div>
+          <div>1️⃣ Заморожування коштів на рахунку RP MARKET</div>
+          <div>2️⃣ Передача товару/віртів продавцем у грі</div>
+          <div>3️⃣ Підтвердження покупцем та виплата коштів продавцю</div>
+        </div>
+      `;
+
+      document.getElementById('modalEscrowDeal').classList.remove('hidden');
+    }
+
+    function confirmEscrowPurchase() {
+      if (!activeEscrowItem) return;
+
+      const commission = Math.round(activeEscrowItem.price * 0.05);
+      const total = activeEscrowItem.price + commission;
+
+      if (currentUser.balanceUah < total) {
+        alert(`Недостатньо коштів на балансі (${currentUser.balanceUah} ₴). Сума до сплати: ${total} ₴. Будь ласка, поповніть баланс!`);
+        closeModal('modalEscrowDeal');
+        openTopUpModal();
+        return;
+      }
+
+      // Freeze funds
+      currentUser.balanceUah -= total;
+      saveUserData();
+
+      const newDeal = {
+        id: 'deal_' + Date.now(),
+        itemTitle: activeEscrowItem.title,
+        price: activeEscrowItem.price,
+        buyerNickname: currentUser.nickname,
+        sellerNickname: activeEscrowItem.sellerNickname,
+        sellerContact: activeEscrowItem.sellerContact || '@seller',
+        status: 'funded', // funded -> delivered -> completed / dispute
+        timestamp: Date.now()
+      };
+
+      escrowDeals.unshift(newDeal);
+      saveDeals();
+      closeModal('modalEscrowDeal');
+
+      switchTab('deals');
+      alert('Угоду відкрито! Кошти успішно заморожено. Перейдіть у розділ "Мої угоди" для зв’язку з продавцем.');
+    }
+
+    function renderEscrowDeals() {
+      const container = document.getElementById('dealsContainer');
+      container.innerHTML = '';
+
+      if (escrowDeals.length === 0) {
+        container.innerHTML = `
+          <div class="glass-card p-6 rounded-2xl text-center space-y-2 border border-amber-900/30">
+            <i class="fa-solid fa-shield-cat text-3xl text-amber-500"></i>
+            <h4 class="font-bold text-white text-sm">У вас ще немає активних угод</h4>
+            <p class="text-xs text-amber-300/60">Обирайте товари в маркеті та купуйте без ризику через гаранта.</p>
+          </div>
+        `;
+        return;
+      }
+
+      escrowDeals.forEach(deal => {
+        const card = document.createElement('div');
+        card.className = 'glass-card p-4 rounded-2xl space-y-3 border border-amber-900/40 text-xs';
+
+        let statusBadge = '';
+        if (deal.status === 'funded') {
+          statusBadge = `<span class="bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 rounded-md font-semibold">⏳ Кошти заморожено (Очікування товару)</span>`;
+        } else if (deal.status === 'delivered') {
+          statusBadge = `<span class="bg-teal-500/20 text-teal-300 border border-teal-500/40 px-2 py-0.5 rounded-md font-semibold">📦 Продавець передав товар</span>`;
+        } else if (deal.status === 'completed') {
+          statusBadge = `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-md font-semibold">✅ Угоду завершено</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between border-b border-amber-900/30 pb-2">
+            <span class="font-bold text-white text-sm">${escapeHTML(deal.itemTitle)}</span>
+            <span class="font-extrabold text-amber-400 text-sm">${deal.price} ₴</span>
+          </div>
+
+          <div class="flex justify-between items-center text-[11px] text-amber-200/70">
+            <span>Продавець: <strong class="text-white">${escapeHTML(deal.sellerNickname)}</strong></span>
+            <span>Покупець: <strong class="text-white">${escapeHTML(deal.buyerNickname)}</strong></span>
+          </div>
+
+          <div>${statusBadge}</div>
+
+          ${deal.status !== 'completed' ? `
+            <div class="flex flex-wrap gap-2 pt-2 border-t border-amber-900/30">
+              ${deal.status === 'funded' ? `
+                <button onclick="updateDealStatus('${deal.id}', 'delivered')" class="bg-amber-500 text-autumn-950 font-bold px-3 py-1.5 rounded-xl">
+                  Повідомити: Товар передано
+                </button>
+              ` : ''}
+
+              ${deal.status === 'delivered' ? `
+                <button onclick="updateDealStatus('${deal.id}', 'completed')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-3 py-1.5 rounded-xl">
+                  <i class="fa-solid fa-check mr-1"></i> Підтвердити отримання
+                </button>
+              ` : ''}
+
+              <button onclick="callArbitrator('${deal.id}')" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl font-semibold">
+                <i class="fa-solid fa-headset mr-1"></i> Викликати арбітра
+              </button>
+            </div>
+          ` : ''}
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function updateDealStatus(dealId, newStatus) {
+      const deal = escrowDeals.find(d => d.id === dealId);
+      if (!deal) return;
+
+      deal.status = newStatus;
+      if (newStatus === 'completed') {
+        // Credit seller balance if seller is current user
+        if (currentUser && currentUser.nickname === deal.sellerNickname) {
+          currentUser.balanceUah += deal.price;
+          saveUserData();
+        }
+        alert('Вітаємо! Угоду успішно завершено. Кошти виплачено продавцю!');
+      }
+
+      saveDeals();
+    }
+
+    function callArbitrator(dealId) {
+      alert('Арбітра платформи RP MARKET підключено до угоди! Очікуйте відповіді в Telegram.');
+    }
+
+    /* =======================================================
+       10. CABINET & SETTINGS
+       ======================================================= */
+    function updateCabinetUI() {
+      if (!currentUser) return;
+
+      document.getElementById('profileNickname').innerText = currentUser.nickname || 'Користувач';
+      document.getElementById('profileTgUser').innerText = currentUser.telegramContact || '@telegram_user';
+      document.getElementById('cabinetUahBalance').innerText = `${currentUser.balanceUah} ₴`;
+      document.getElementById('settingMonoCard').value = currentUser.monoCard || '';
+
+      // User Initials Avatar
+      const avatarBox = document.getElementById('userAvatarContainer');
+      if (currentUser.nickname) {
+        avatarBox.innerText = currentUser.nickname.charAt(0).toUpperCase();
+      } else {
+        avatarBox.innerHTML = '<i class="fa-solid fa-user"></i>';
+      }
+
+      // User Listings Count
+      const myItems = listings.filter(l => l.sellerNickname === currentUser.nickname);
+      document.getElementById('statActiveListings').innerText = myItems.length;
+
+      const completedCount = escrowDeals.filter(d => d.status === 'completed' && (d.sellerNickname === currentUser.nickname || d.buyerNickname === currentUser.nickname)).length;
+      document.getElementById('statCompletedDeals').innerText = completedCount;
+
+      // Render My Listings List in Cabinet
+      const container = document.getElementById('userListingsContainer');
+      container.innerHTML = '';
+
+      if (myItems.length === 0) {
+        container.innerHTML = `<p class="text-xs text-amber-300/50 py-2">У вас ще немає створених оголошень.</p>`;
+      } else {
+        myItems.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'p-3 bg-autumn-900/80 rounded-xl border border-amber-900/40 flex items-center justify-between text-xs';
+          row.innerHTML = `
+            <div>
+              <span class="font-bold text-white block">${escapeHTML(item.title)}</span>
+              <span class="text-[11px] text-amber-400 font-semibold">${item.price} ₴ (${item.server})</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="openPromoteModal('${item.id}')" class="bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-lg text-[11px] font-bold">🚀</button>
+              <button onclick="editListing('${item.id}')" class="bg-autumn-800 text-amber-300 px-2 py-1 rounded-lg text-[11px]">✏️</button>
+              <button onclick="deleteListing('${item.id}')" class="bg-red-500/20 text-red-400 px-2 py-1 rounded-lg text-[11px]">🗑️</button>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+      }
+    }
+
+    function updateHeaderBalance() {
+      if (currentUser) {
+        document.getElementById('headerUahBalance').innerText = `${currentUser.balanceUah} ₴`;
+      }
+    }
+
+    function saveMonoCard() {
+      const cardNum = document.getElementById('settingMonoCard').value.trim();
+      currentUser.monoCard = cardNum;
+      saveUserData();
+      alert('Реквізити Monobank успішно збережено!');
+    }
+
+    function openTopUpModal() {
+      document.getElementById('modalTopUp').classList.remove('hidden');
+    }
+
+    function processTopUp() {
+      const amt = parseFloat(document.getElementById('topUpAmount').value);
+      if (isNaN(amt) || amt < 10) {
+        alert('Мінімальна сума поповнення — 10 ₴');
+        return;
+      }
+      currentUser.balanceUah += amt;
+      saveUserData();
+      closeModal('modalTopUp');
+      alert(`Баланс успішно поповнено на +${amt} ₴!`);
+    }
+
+    function showStarsInfoModal() {
+      document.getElementById('modalStarsInfo').classList.remove('hidden');
+    }
+
+    function resetLocalAccount() {
+      if (confirm('Ви впевнені, що бажаєте скинути всі локальні дані?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+
+    /* =======================================================
+       11. UTILITY FUNCTIONS
+       ======================================================= */
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    function copyToClipboard(text) {
+      const tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Номер картки скопійовано у буфер обміну!');
+    }
+  </script>
+</body>
+</html>
